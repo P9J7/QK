@@ -4,12 +4,10 @@ from matplotlib import pyplot as plt
 import sys
 
 
-
 def partition(arr, low, high):
-    i = (low - 1)  # 最小元素索引
+    i = (low - 1)
     pivot = arr[high]
     for j in range(low, high):
-        # 当前元素小于或等于 pivot
         if arr[j] <= pivot:
             i = i + 1
             arr[i], arr[j] = arr[j], arr[i]
@@ -17,17 +15,11 @@ def partition(arr, low, high):
     return i + 1
 
 
-# arr[] --> 排序数组
-# low  --> 起始索引
-# high  --> 结束索引
-
-# 快速排序函数
 def quickSort(arr, low, high):
     if low < high:
         pi = partition(arr, low, high)
         quickSort(arr, low, pi - 1)
         quickSort(arr, pi + 1, high)
-    return arr
 
 
 def randPartition(arr, low, high):
@@ -36,16 +28,13 @@ def randPartition(arr, low, high):
     return partition(arr, low, high)
 
 
-# 随机快速排序函数
 def randQuickSort(arr, low, high):
     if low < high:
         pi = randPartition(arr, low, high)
         randQuickSort(arr, low, pi - 1)
         randQuickSort(arr, pi + 1, high)
-    return arr
 
 
-# arr = [10, 7, 8, 9, 1, 5]
 def experiment(start, end, step):
     space = np.linspace(start, end, step + 1, dtype=int)
     print(space)
@@ -56,6 +45,8 @@ def experiment(start, end, step):
     for index,i in enumerate(space):
         print(index)
         arr = np.random.randint(0, 100, i)
+        # 生成顺序数组
+        # arr = np.linspace(0, 100, i + 1)
         randArr = arr.copy()
         n = len(arr)
         startTime = time.clock()
@@ -70,10 +61,12 @@ def experiment(start, end, step):
 
 
 if __name__ == '__main__':
-    space, spend, randSpend = experiment(0, 100000, 5)
     sys.setrecursionlimit(100000)
+    space, spend, randSpend = experiment(0, 100000, 5)
     for i, j in zip(space, spend):
         print(i, "个数组快速排序所花时间为", j, "秒")
+    for i, j in zip(space, randSpend):
+        print(i, "个数组随机快速排序所花时间为", j, "秒")
     plt.plot(space, spend, label = 'QuickSort')
     plt.plot(space, randSpend, label='RandQuickSort')
     plt.legend()
